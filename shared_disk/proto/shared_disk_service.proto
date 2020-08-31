@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package dbx1000;
+option cc_generic_services = true;
+
+service SharedDiskService{
+  rpc Open(OpenRequest) returns (OpenReply){}
+  rpc Write(WriteRequest) returns (WriteReply){}
+  rpc Read(ReadRequest) returns (ReadReply){}
+  rpc WritePage(WritePageRequest) returns (WritePageReply){}
+  rpc ReadPage(ReadPageRequest) returns (ReadPageReply){}
+  rpc CloseAll(CloseAllRequest) returns (CloseAllReply){}
+  rpc Close(CloseRequest) returns (CloseReply){}
+}
+message OpenRequest{string path = 1;}
+message OpenReply{int32 fd = 1;}
+
+message WriteRequest{
+  int32 fd = 1;
+  bytes buf = 2;
+  uint64 size = 3;
+  int64 offset = 4;
+}
+message WriteReply{uint64 size = 1;}
+
+message ReadRequest{
+  int32 fd = 1;
+  uint64 size = 2;
+  int64 offset = 3;
+}
+message ReadReply{
+  bytes buf = 1;
+  uint64 size = 2;
+}
+
+message WritePageRequest{
+  uint64 page_id = 1;
+  bytes page_buf = 2;
+}
+message WritePageReply{uint64 size = 1;}
+
+message ReadPageRequest{uint64 page_id = 1;}
+message ReadPageReply{
+  bytes page_buf = 1;
+  uint64 size = 2;
+}
+
+message CloseAllRequest{}
+message CloseAllReply{int32 rc = 1;}
+
+message CloseRequest{int32 fd = 1;}
+message CloseReply{int32 rc = 1;}
+
+
+

@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package dbx1000;
+option cc_generic_services = true;
+
+enum RpcLockMode {
+  O = 0;
+  P = 1;
+  S = 2;
+  X = 3;
+}
+
+enum RpcRC {
+  RCOK = 0;
+  Commit = 1;
+  Abort = 2;
+  WAIT = 3;
+  ERROR = 4;
+  FINISH = 5;
+  TIME_OUT = 6;
+}
+
+message LockRemoteRequest{
+  int32 instance_id = 1;
+  uint64 page_id = 2;
+  RpcLockMode req_mode = 3;
+  bytes page_buf = 4;
+  uint64 count = 5;
+}
+message LockRemoteReply{
+  RpcRC rc = 1;
+  bytes page_buf = 2;
+  uint64 count = 3;
+}
+
+message InstanceInitDoneRequest{
+  int32 instance_id = 1;
+}
+message InstanceInitDoneReply{}
+
+message GlobalLockInitDoneRequest{}
+message GlobalLockInitDoneReply{
+  bool init_done = 1;
+}
+
+message InvalidRequest{
+  uint64 page_id = 1;
+  bytes page_buf = 2;
+  uint64 count = 3;
+}
+
+message InvalidReply{
+  RpcRC rc = 1;
+  bytes page_buf = 2;
+  uint64 count = 3;
+}
+message GetNextTsRequest{}
+message GetNextTsReply{
+  uint64 ts = 1;
+}
+
+message  TestRequest{}
+message TestReply{}
+
+
+service GlobalLockService {
+  // for instance
+  rpc LockRemote(LockRemoteRequest) returns (LockRemoteReply) {}
+  rpc InstanceInitDone(InstanceInitDoneRequest) returns (InstanceInitDoneReply) {}
+  rpc GlobalLockInitDone(GlobalLockInitDoneRequest) returns (GlobalLockInitDoneReply) {}
+  rpc GetNextTs(GetNextTsRequest) returns (GetNextTsReply) {}
+
+  // for lock_server
+  rpc Invalid(InvalidRequest) returns (InvalidReply) {}
+  rpc Test(TestRequest) returns (TestReply) {}
+}

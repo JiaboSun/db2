@@ -1,0 +1,14 @@
+*.o
+*.d
+
+**/.idea/
+**/cmake-build-debug/
+**/build/
+**/.vscode/
+.clion.source.upload.marker
+
+**/db/
+shared_disk/proto/*.cc
+shared_disk/proto/*.h
+rpc_handler/proto/*.cc
+rpc_handler/proto/*.h

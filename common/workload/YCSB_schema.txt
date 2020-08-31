@@ -1,0 +1,15 @@
+//size, type, name
+TABLE=MAIN_TABLE
+	8,string,KEY
+	8,string,F1
+	8,string,F2
+	8,string,F3
+	8,string,F4
+	8,string,F5
+	8,string,F6
+	8,string,F7
+	8,string,F8
+	8,string,VERSION
+
+INDEX=MAIN_INDEX
+MAIN_TABLE,0
