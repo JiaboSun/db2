@@ -63,8 +63,16 @@ namespace dbx1000 {
 
         this->query_queue_ = new Query_queue();
         query_queue_->init();
-
-        this->m_workload_ = new ycsb_wl();
+        switch(WORKLOAD)
+        {
+            case YCSB :
+                this->m_workload_ = new ycsb_wl();
+                break;
+            case TPCC:
+                this->m_workload_ = new tpcc_wl();
+                break;
+        }
+       // this->m_workload_ = new ycsb_wl();
         m_workload_->init();
         row_handler_ = new RowHandler(this);
 
